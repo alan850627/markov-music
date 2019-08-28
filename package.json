@@ -1,0 +1,14 @@
+{
+  "name": "markov-music",
+  "version": "0.0.1",
+  "description": "analyze and generate music using markov chains",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js -i in.mid -o out.mid"
+  },
+  "author": "Alan Chen",
+  "license": "ISC",
+  "dependencies": {
+    "@tonejs/midi": "^2.0.7"
+  }
+}
