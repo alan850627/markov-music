@@ -44,9 +44,9 @@ const arr = []
 for (let i = low; i <= high; i += 1) {
   const row = []
   for (let j = low; j <= high; j += 1) {
-    if (matrix[i]) {
-      if (matrix[i].next[j]) {
-        row.push(matrix[i].next[j].p)
+    if (matrix[j]) {
+      if (matrix[j].next[i]) {
+        row.push(matrix[j].next[i].p)
       } else {
         row.push(0)
       }
