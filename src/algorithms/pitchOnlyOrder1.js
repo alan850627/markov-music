@@ -13,7 +13,7 @@ function getKey(events) {
     return null
   }
 
-  return highestNote(event)
+  return `k${highestNote(event)}`
 }
 
 // Given a list of events with the oldest event not processed at index zero,
@@ -23,7 +23,7 @@ function getEventSequence(events) {
   const event = events[0]
   return [[{
     midi: highestNote(event),
-    duration: 0.5
+    duration: 0.125
   }]]
 }
 
@@ -46,7 +46,7 @@ function getNextEvent(events) {
   const event = events[1]
   return [{
     midi: highestNote(event),
-    duration: 0.5
+    duration: 0.125
   }]
 }
 

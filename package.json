@@ -4,7 +4,7 @@
   "description": "analyze and generate music using markov chains",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js -a topVoiceNoteOnlyOrder1 -n 100 -i in.mid -o out.mid",
+    "start": "node src/index.js -a pitchOnlyOrder1 -n 100 -i in.mid -o out.mid",
     "analyze": "node src/analyze.js -i in.mid -o out.html "
   },
   "author": "Alan Chen",

@@ -26,7 +26,7 @@ class MidiBuilder {
       time += this.algorithms.recreateEvent(track, event, time)
     })
 
-    while(currentRow.next && length) {
+    while(Object.keys(currentRow.next).length > 0 && length) {
       const nextKeys = Object.keys(currentRow.next)
       const rand = Math.random()
       let i = 0
@@ -40,8 +40,8 @@ class MidiBuilder {
       time += this.algorithms.recreateEvent(track, event, time)
 
       events.push(event)
-      currentRow = this.matrix[this.algorithms.getNextKey(events)]
       events.shift()
+      currentRow = this.matrix[this.algorithms.getKey(events)]
       length -= 1
     }
   }

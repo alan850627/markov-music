@@ -13,7 +13,7 @@ if (!args['i'] || !args['o']) {
   process.exit(1)
 }
 
-const algorithms = require('./algorithms/topVoiceNoteOnlyOrder1')
+const algorithms = require('./algorithms/pitchOnlyOrder1')
 
 const stream = new MidiStreamer({path: args['i'], ignoreRests: true})
 const builder = new MarkovBuilder({algorithms: algorithms})

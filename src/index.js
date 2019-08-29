@@ -32,7 +32,7 @@ while(stream._validPtr()) {
   stream.nextTrack()
   console.log(`Track ${stream.trackPtr} done.`)
 }
-
+console.log('Calculating P')
 builder.calculateP()
 
 const out = new MidiBuilder({algorithms: algorithms, path: args['o'], matrix: builder.matrix})
