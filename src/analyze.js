@@ -84,7 +84,7 @@ const template = `
 
       var horizCenter = width/2
       var vertCenter = height/2
-      var size = 600
+      var size = 550
       ctx.fillStyle = 'rgb(0,0,0)';
       ctx.fillRect(horizCenter-size/2-2,vertCenter-size/2-2,size+4,size+4);
 
@@ -97,7 +97,8 @@ const template = `
       var blockSize = size/matrix.length
       function drawData(x, y) {
         var p = matrix[y][x]
-        var c = (1-p)*255
+        var log = Math.log(1+p)/Math.log(2)
+        var c = (1-log)*255
         ctx.fillStyle = \`rgb(\${c},\${c},\${c})\`;
         ctx.fillRect(horizCenter-size/2 + blockSize * x,vertCenter-size/2 + blockSize * y, blockSize, blockSize);
       }
