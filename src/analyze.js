@@ -15,7 +15,7 @@ if (!args['i'] || !args['o']) {
 
 const algorithms = require('./algorithms/topVoiceNoteOnlyOrder1')
 
-const stream = new MidiStreamer({path: args['i'], tolerance: 0.1})
+const stream = new MidiStreamer({path: args['i'], tolerance: 0.0001, ignoreRests: true})
 
 let event = stream.getNextEvent()
 const events = []
@@ -32,6 +32,7 @@ while(events.length) {
 builder.calculateP()
 
 const matrix = builder.matrix
+
 
 // TODO: SORT THE KEYS. IF THE KEY ISN'T ALREADY MIDI NUMBERS!
 // THIS IS A LOT OF WORK!

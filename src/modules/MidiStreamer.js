@@ -8,6 +8,7 @@ class MidiStreamer {
   constructor(options) {
     this.path = options.path || ''
     this.tolerance = options.tolerance || 0
+    this.ignoreRests = options.ignoreRests || false
     this.midi = new Midi(fs.readFileSync(this.path))
     this.trackPtr = 0
     this.notePtr = 0
@@ -30,7 +31,7 @@ class MidiStreamer {
     if (this.midi.tracks[this.trackPtr].notes.length <= this.notePtr) {
       this.notePtr = 0
       this.trackPtr += 1
-    } 
+    }
   }
 
   _getNextNote() {
@@ -57,21 +58,24 @@ class MidiStreamer {
     if (!note) {
       return null
     }
+
     // check if there's rest in between
-    const prevEndTime = this._getEventEndingTime(this.previousEvent)
-    if (note.time - prevEndTime > this.tolerance) {
-      // there is a rest.
-      const restEvent = [{
-        midi: -1,
-        time: prevEndTime,
-        name: 'rest',
-        pitch: 'rest',
-        octave : 'rest',
-        velocity: '0',
-        duration: note.time - prevEndTime, 
-      }]
-      this.previousEvent = restEvent
-      return restEvent
+    if(!this.ignoreRests) {
+      const prevEndTime = this._getEventEndingTime(this.previousEvent)
+      if (note.time - prevEndTime > this.tolerance) {
+        // there is a rest.
+        const restEvent = [{
+          midi: -1,
+          time: prevEndTime,
+          name: 'rest',
+          pitch: 'rest',
+          octave : 'rest',
+          velocity: '0',
+          duration: note.time - prevEndTime,
+        }]
+        this.previousEvent = restEvent
+        return restEvent
+      }
     }
 
     const out = []

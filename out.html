@@ -38,7 +38,6 @@
       var blockSize = size/matrix.length
       function drawData(x, y) {
         var p = matrix[y][x]
-        // ctx.fillStyle = `hsl(${(1-p) * 240},${100}%,${(1-p) * 50 + 50}%)`;
         var c = (1-p)*255
         ctx.fillStyle = `rgb(${c},${c},${c})`;
         ctx.fillRect(horizCenter-size/2 + blockSize * x,vertCenter-size/2 + blockSize * y, blockSize, blockSize);
