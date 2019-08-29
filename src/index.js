@@ -3,15 +3,16 @@ const util = require('./modules/util')
 const MidiStreamer = require('./modules/MidiStreamer')
 const MidiBuilder = require('./modules/MidiBuilder')
 const MarkovBuilder = require('./modules/MarkovBuilder')
-const algorithms = require('./algorithms/topVoiceNoteOnlyOrder1')
 
 const args = util.readArgs()
 
-if (!args['i'] || !args['o']) {
+if (!args['i'] || !args['o'] || !args['a']) {
   console.log('Usage:')
-  console.log('  node rename.js -i path/to/input/midi.mid -o path/to/output/midi.mid')
+  console.log('  node src/index.js -a <algorithm> -i path/to/input/midi.mid -o path/to/output/midi.mid')
   process.exit(1)
 }
+
+const algorithms = require(`./algorithms/${args['a']}`)
 
 const stream = new MidiStreamer({path: args['i'], tolerance: 0.1})
 
