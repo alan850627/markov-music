@@ -3,7 +3,6 @@
 function getKey(events) {
   const event = events[0]
   if (!event) {
-    console.error('No event')
     return null
   }
 
@@ -21,7 +20,6 @@ function getEventSequence(events) {
 function getNextKey(events) {
   const event = events[1]
   if (!event) {
-    console.error('No event')
     return null
   }
 
@@ -40,14 +38,14 @@ function getNextEvent(events) {
 function recreateEvent(track, event, time) {
   if (event[0].midi === -1) {
     //rests don't need to be created.
-    return event[0].duration 
+    return event[0].duration
   }
   track.addNote({
     midi : event[0].midi,
     time : time,
     duration: event[0].duration
   })
-  return event[0].duration 
+  return event[0].duration
 }
 
 module.exports = {

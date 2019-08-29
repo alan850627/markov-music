@@ -26,12 +26,9 @@ class MidiStreamer {
     return true
   }
 
-  _incrementPtr() {
-    this.notePtr += 1
-    if (this.midi.tracks[this.trackPtr].notes.length <= this.notePtr) {
-      this.notePtr = 0
-      this.trackPtr += 1
-    }
+  nextTrack() {
+    this.notePtr = 0
+    this.trackPtr += 1
   }
 
   _getNextNote() {
@@ -80,13 +77,13 @@ class MidiStreamer {
 
     const out = []
     out.push(note)
-    this._incrementPtr()
+    this.notePtr += 1
 
     let nextNote = this._getNextNote()
     while (nextNote && nextNote.time - note.time <= this.tolerance) {
       out.push(nextNote)
       note = nextNote
-      this._incrementPtr()
+      this.notePtr += 1
       nextNote = this._getNextNote()
     }
 

@@ -1,5 +1,5 @@
 
- 
+
 class MarkovBuilder {
   constructor(options) {
     this.algorithms = options.algorithms
@@ -9,7 +9,6 @@ class MarkovBuilder {
   processEvents(events) {
     const key = this.algorithms.getKey(events)
     if (!key) {
-      console.error('Can\'t get key.')
       return
     }
     if (!this.matrix[key]) {
@@ -22,7 +21,6 @@ class MarkovBuilder {
 
     const nextKey = this.algorithms.getNextKey(events)
     if (!nextKey) {
-      console.error('Can\'t get next key')
       return
     }
     if (!this.matrix[key].next[nextKey]) {

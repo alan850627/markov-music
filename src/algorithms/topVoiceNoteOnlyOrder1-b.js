@@ -3,7 +3,6 @@
 function getKey(events) {
   const event = events[0]
   if (!event) {
-    console.error('No event')
     return null
   }
 
@@ -21,7 +20,6 @@ function getEventSequence(events) {
 function getNextKey(events) {
   const event = events[1]
   if (!event) {
-    console.error('No event')
     return null
   }
 

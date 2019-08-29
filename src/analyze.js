@@ -15,24 +15,29 @@ if (!args['i'] || !args['o']) {
 
 const algorithms = require('./algorithms/topVoiceNoteOnlyOrder1')
 
-const stream = new MidiStreamer({path: args['i'], tolerance: 0.0001, ignoreRests: true})
-
-let event = stream.getNextEvent()
-const events = []
-while(event) {
-  events.push(event)
-  event = stream.getNextEvent()
-}
-
+const stream = new MidiStreamer({path: args['i'], ignoreRests: true})
 const builder = new MarkovBuilder({algorithms: algorithms})
-while(events.length) {
-  builder.processEvents(events)
-  events.shift()
+
+while(stream._validPtr()) {
+  let event = stream.getNextEvent()
+  const events = []
+
+  while(event) {
+    events.push(event)
+    event = stream.getNextEvent()
+  }
+  while(events.length) {
+    builder.processEvents(events)
+    events.shift()
+  }
+  stream.nextTrack()
+  console.log(`Track ${stream.trackPtr} done.`)
 }
+
+console.log('Calculating P')
 builder.calculateP()
 
 const matrix = builder.matrix
-
 
 // TODO: SORT THE KEYS. IF THE KEY ISN'T ALREADY MIDI NUMBERS!
 // THIS IS A LOT OF WORK!

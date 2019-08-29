@@ -15,19 +15,24 @@ if (!args['i'] || !args['o'] || !args['a']) {
 const algorithms = require(`./algorithms/${args['a']}`)
 
 const stream = new MidiStreamer({path: args['i'], tolerance: 0.1})
-
-let event = stream.getNextEvent()
-const events = []
-while(event) {
-  events.push(event)
-  event = stream.getNextEvent()
-}
-
 const builder = new MarkovBuilder({algorithms: algorithms})
-while(events.length) {
-  builder.processEvents(events)
-  events.shift()
+
+while(stream._validPtr()) {
+  let event = stream.getNextEvent()
+  const events = []
+
+  while(event) {
+    events.push(event)
+    event = stream.getNextEvent()
+  }
+  while(events.length) {
+    builder.processEvents(events)
+    events.shift()
+  }
+  stream.nextTrack()
+  console.log(`Track ${stream.trackPtr} done.`)
 }
+
 builder.calculateP()
 
 const out = new MidiBuilder({algorithms: algorithms, path: args['o'], matrix: builder.matrix})
