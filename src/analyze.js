@@ -44,9 +44,9 @@ const arr = []
 for (let i = low; i <= high; i += 1) {
   const row = []
   for (let j = low; j <= high; j += 1) {
-    if (matrix[j]) {
-      if (matrix[j].next[i]) {
-        row.push(matrix[j].next[i].p)
+    if (matrix[i]) {
+      if (matrix[i].next[j]) {
+        row.push(matrix[i].next[j].p)
       } else {
         row.push(0)
       }
@@ -62,48 +62,66 @@ const template = `
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Canvas</title>
+    <title>Transition Matrix</title>
     <style>
       body {
         margin: 0;
-        overflow: hidden;
+      }
+      .cell {
+        border-style: dotted;
+        border-width: thin;
+        border-color: #CCCCCC;
+        position:absolute;
+      }
+      .text {
+        text-align: center;
+        position:absolute;
       }
     </style>
   </head>
   <body>
-    <canvas class="myCanvas">
-      <p>Canvas failed!!! -Alanolen</p>
-    </canvas>
+    <div class="matrix">
+    </div>
 
     <script>
       var matrix = ${JSON.stringify(arr)}
-      var canvas = document.querySelector('.myCanvas');
-      var width = canvas.width = window.innerWidth;
-      var height = canvas.height = window.innerHeight;
-      var ctx = canvas.getContext('2d');
+      var canvas = document.querySelector('.matrix');
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+      canvas.style.cssText = \`width:\${width}px;height:\${height}px;\`
+      var size = Math.min(width, height) * .9
 
       var horizCenter = width/2
       var vertCenter = height/2
-      var size = 550
-      ctx.fillStyle = 'rgb(0,0,0)';
-      ctx.fillRect(horizCenter-size/2-2,vertCenter-size/2-2,size+4,size+4);
-
-      ctx.fillText('${low}', horizCenter-size/2-20, vertCenter-size/2 + 5);
-      ctx.fillText('${high}', horizCenter-size/2-20, vertCenter+size/2);
-
-      ctx.fillText('${low}', horizCenter-size/2, vertCenter-size/2 - 10);
-      ctx.fillText('${high}', horizCenter+size/2-10, vertCenter-size/2 - 10);
-
       var blockSize = size/matrix.length
+
       function drawData(x, y) {
         var p = matrix[y][x]
         var log = Math.log(1+p)/Math.log(2)
         var c = (1-log)*255
-        ctx.fillStyle = \`rgb(\${c},\${c},\${c})\`;
-        ctx.fillRect(horizCenter-size/2 + blockSize * x,vertCenter-size/2 + blockSize * y, blockSize, blockSize);
+
+        var obj = document.createElement('div');
+        obj.className = "cell"
+        obj.style.cssText = \`left:\${horizCenter-size/2 + blockSize * x}px;top:\${vertCenter-size/2 + blockSize * y}px;width:\${blockSize}px;height:\${blockSize}px;background-color:rgb(\${c},\${c},\${c});\`
+        canvas.appendChild(obj);
+      }
+
+      function drawMargin(i) {
+        text = document.createElement('div');
+        text.className = "text"
+        text.style.cssText = \`font-size:\${blockSize/2}px;left:\${horizCenter-size/2 + i * blockSize + blockSize/4}px;top:\${vertCenter-size/2 - blockSize}px;\`
+        text.innerHTML = ${low} + i
+        canvas.appendChild(text);
+
+        text = document.createElement('div');
+        text.className = "text"
+        text.style.cssText = \`font-size:\${blockSize/2}px;left:\${horizCenter-size/2 - blockSize}px;top:\${vertCenter-size/2 +i*blockSize + blockSize/4}px;\`
+        text.innerHTML = ${low} + i
+        canvas.appendChild(text);
       }
 
       for (var i = 0; i < matrix.length; i += 1) {
+        drawMargin(i)
         for (var j = 0; j < matrix[i].length; j += 1) {
           drawData(j, i)
         }
