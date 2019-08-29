@@ -135,4 +135,5 @@ const template = `
   </body>
 </html>
 `
+
 fs.writeFileSync(args['o'], template, 'utf-8')
